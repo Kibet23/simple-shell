@@ -21,3 +21,34 @@ void parse_command(char *load, char *toks[])
 	}
 	toks[count] = NULL;
 }
+/**
+ * find_command - checks whether the command is in PATH
+ * @cmd: command to be checked
+ *
+ * Return: 0
+ */
+int find_command(char *cmd)
+{
+	char *path = getenv("PATH");
+	char cpy[MAX_COMMAND_LENGTH];
+
+	strncpy(cpy, path, sizeof(cpy));
+	cpy[sizeof(cpy) - 1] = '\0';
+
+	char *tok = strtok(cpy, ":");
+
+	while (tok != NULL)
+	{
+		char k[MAX_COMMAND_LENGTH];
+
+		snprintf(k, sizeof(k), "%s%s", tok, cmd);
+
+		if (access(k, X_OK) == 0)
+		{
+			return (1);
+		}
+
+		tok = strtok(NULL, ":");
+	}
+	return (0);
+}
