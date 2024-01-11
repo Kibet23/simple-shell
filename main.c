@@ -149,7 +149,6 @@ int main(void)
 	while (1)
 	{
 		display_prompt();
-
 		if (fgets(cmd, sizeof(cmd), stdin) == NULL)
 		{
 			printf("\nExit shell\n");
@@ -157,7 +156,6 @@ int main(void)
 		}
 
 		cmd[strcspn(cmd, "\n")] = '\0';
-
 		parse_command(cmd, toks);
 		/*exec cmd or built-in*/
 

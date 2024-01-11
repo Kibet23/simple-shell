@@ -77,3 +77,38 @@ int setenv(const char *id, const char *val, int overwrite)
 		return (-1);
 	}
 }
+/**
+ * unsetenv - removes an environment variable
+ * @id: variable name
+ *
+ * Return: 0 and -1
+ */
+int unsetenv(char *id)
+{
+	int env_count = 0;
+	int k = 0;
+	int l = 0;
+
+	for (k = 0; k < env_count; k++)
+	{
+		if (strcmp(environ[k].id, id) == 0)
+		{
+			for (l = k; l < env_count - 1; l++)
+			{
+				strncpy(environ[l].id, environ[l + 1].id, sizeof
+						(environ[l].id) - 1);
+				environ[l].id[sizeof(environ[l].id) - 1] = '\0';
+				strncpy(environ[l].val, environ[l + 1].val, sizeof
+						(environ[l].val) - 1);
+				environ[l].val[sizeof(environ[l].val) - 1] = '\0';
+			}
+			/*clear the last element*/
+			memset(&environ[env_count - 1], 0, sizeof(env));
+
+			env_count--;
+			return (0); /*success*/
+		}
+	}
+	fprintf(stderr, "variable '%s' not found.\n", id);
+	return (-1); /*failure*/
+}
